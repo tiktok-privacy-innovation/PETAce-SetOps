@@ -1,0 +1,102 @@
+# Copyright 2023 TikTok Pte. Ltd.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+macro(setops_find_dependency dep)
+    find_dependency(${dep})
+    if(NOT ${dep}_FOUND)
+        if(NOT PETAce-SetOps_FIND_QUIETLY)
+            message(WARNING "Could not find dependency `${dep}` required by this configuration")
+        endif()
+        set(PETAce-SetOps_FOUND FALSE)
+        return()
+    endif()
+endmacro()
+
+set(PETAce-SetOps_FOUND FALSE)
+set(PETAce-SetOps_STATIC_FOUND FALSE)
+set(PETAce-SetOps_SHARED_FOUND FALSE)
+
+set(SETOPS_DEBUG @SETOPS_DEBUG@)
+
+set(SETOPS_VERSION @SETOPS_VERSION@)
+set(SETOPS_VERSION_MAJOR @SETOPS_VERSION_MAJOR@)
+set(SETOPS_VERSION_MINOR @SETOPS_VERSION_MINOR@)
+set(SETOPS_VERSION_PATCH @SETOPS_VERSION_PATCH@)
+set(SETOPS_BUILD_TYPE @CMAKE_BUILD_TYPE@)
+
+set(SETOPS_CARRY_GLOG @SETOPS_CARRY_GLOG@)
+set(SETOPS_CARRY_NETWORK @SETOPS_CARRY_NETWORK@)
+set(SETOPS_CARRY_SOLO @SETOPS_CARRY_SOLO@)
+
+setops_find_dependency(OpenMP REQUIRED)
+setops_find_dependency(nlohmann_json REQUIRED)
+
+if(NOT SETOPS_CARRY_GLOG)
+    setops_find_dependency(glog REQUIRED)
+endif()
+
+if(NOT SETOPS_CARRY_NETWORK)
+    setops_find_dependency(PETAce-Network REQUIRED)
+endif()
+
+if(NOT SETOPS_CARRY_SOLO)
+    setops_find_dependency(PETAce-Solo REQUIRED)
+endif()
+
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+setops_find_dependency(Threads)
+
+# Add the current directory to the module search path
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR})
+
+include(${CMAKE_CURRENT_LIST_DIR}/PETAce-SetOpsTargets.cmake)
+
+if(TARGET PETAce-SetOps::setops)
+    set(PETAce-SetOps_FOUND TRUE)
+    set(PETAce-SetOps_STATIC_FOUND TRUE)
+endif()
+
+if(TARGET PETAce-SetOps::setops_shared)
+    set(PETAce-SetOps_FOUND TRUE)
+    set(PETAce-SetOps_SHARED_FOUND TRUE)
+endif()
+
+if(PETAce-SetOps_FOUND)
+    if(NOT PETAce-SetOps_FIND_QUIETLY)
+        message(STATUS "PETAce-SetOps -> Version ${PETAce-SetOps_VERSION} detected")
+    endif()
+    if(SETOPS_DEBUG AND NOT PETAce-SetOps_FIND_QUIETLY)
+        message(STATUS "Performance warning: PETAce-SetOps compiled in debug mode")
+    endif()
+    set(PETAce-SetOps_TARGETS_AVAILABLE "PETAce-SetOps Targets available:")
+
+    if(PETAce-SetOps_STATIC_FOUND)
+        string(APPEND PETAce-SetOps_TARGETS_AVAILABLE " PETAce-SetOps::setops")
+    endif()
+    if(PETAce-SetOps_SHARED_FOUND)
+        string(APPEND PETAce-SetOps_TARGETS_AVAILABLE " PETAce-SetOps::setops_shared")
+    endif()
+    if(NOT PETAce-SetOps_FIND_QUIETLY)
+        message(STATUS ${PETAce-SetOps_TARGETS_AVAILABLE})
+    endif()
+else()
+    if(NOT PETAce-SetOps_QUIETLY)
+        message(STATUS "PETAce-SetOps -> NOT FOUND")
+    endif()
+endif()

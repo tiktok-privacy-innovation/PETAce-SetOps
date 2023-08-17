@@ -1,0 +1,25 @@
+{
+    "network": {
+        "address": "127.0.0.1",
+        "remote_port": 30331,
+        "local_port": 30330,
+        "timeout": 90,
+        "scheme": 0
+    },
+    "common": {
+        "ids_num": 1,
+        "is_sender": true,
+        "verbose": true,
+        "memory_psi_scheme": "psi",
+        "psi_scheme": "ecdh"
+    },
+    "data": {
+        "input_file": "/data/sender_input_file.csv",
+        "has_header": false,
+        "output_file": "/data/sender_output_file.csv"
+    },
+    "ecdh_params": {
+        "curve_id": 415,
+        "obtain_result": true
+    }
+}
