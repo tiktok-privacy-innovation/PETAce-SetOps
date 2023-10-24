@@ -14,14 +14,16 @@
 
 cmake_minimum_required(VERSION 3.14)
 
-project(SETOPSExamples VERSION 0.1.0 LANGUAGES CXX)
+project(SETOPSExamples VERSION 0.2.0 LANGUAGES CXX)
 
 # If not called from root CMakeLists.txt
 if(NOT DEFINED SETOPS_BUILD_EXAMPLE)
     set(SETOPS_BUILD_EXAMPLE ON)
 
     # Import PETAce SETOPS
-    find_package(PETAce-SetOps  0.1.0 EXACT REQUIRED)
+    find_package(PETAce-SetOps  0.2.0 EXACT REQUIRED)
+
+    add_compile_options(-msse4.2 -Wno-ignored-attributes -mavx)
 
     # Must define these variables and include macros
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
@@ -81,6 +83,8 @@ if(SETOPS_BUILD_EXAMPLE)
     # Test files in this directory
     set(SETOPS_EXAMPLE_FILES ${SETOPS_EXAMPLE_FILES}
         ${CMAKE_CURRENT_LIST_DIR}/ecdh_psi_example.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/circuit_psi_example.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/kkrt_psi_example.cpp
         ${CMAKE_CURRENT_LIST_DIR}/example.cpp
     )
 
@@ -88,9 +92,9 @@ if(SETOPS_BUILD_EXAMPLE)
     add_executable(setops_example ${SETOPS_EXAMPLE_FILES})
 
     if(TARGET PETAce-SetOps::setops)
-        target_link_libraries(setops_example PRIVATE PETAce-SetOps::setops gflags::gflags glog::glog)
+        target_link_libraries(setops_example PRIVATE PETAce-SetOps::setops gflags::gflags glog::glog m)
     elseif(TARGET PETAce-SetOps::setops_shared)
-        target_link_libraries(setops_example PRIVATE PETAce-SetOps::setops_shared gflags::gflags glog::glog)
+        target_link_libraries(setops_example PRIVATE PETAce-SetOps::setops_shared gflags::gflags glog::glog m)
     else()
         message(FATAL_ERROR "Cannot find target PETAce-SetOps::setops or PETAce-SetOps::setops_shared")
     endif()
@@ -103,4 +107,8 @@ if(SETOPS_BUILD_EXAMPLE)
     configure_file(${CMAKE_CURRENT_LIST_DIR}/scripts/ecdh_psi_sender_example.sh.in ${SETOPS_EXAMPLE_SCRIPTS_INSTALL_DIR}/ecdh_psi_sender_example.sh @ONLY)
     configure_file(${CMAKE_CURRENT_LIST_DIR}/scripts/ecdh_psi_receiver_use_file_data.sh.in ${SETOPS_EXAMPLE_SCRIPTS_INSTALL_DIR}/ecdh_psi_receiver_use_file_data.sh @ONLY)
     configure_file(${CMAKE_CURRENT_LIST_DIR}/scripts/ecdh_psi_sender_use_file_data.sh.in ${SETOPS_EXAMPLE_SCRIPTS_INSTALL_DIR}/ecdh_psi_sender_use_file_data.sh @ONLY)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/scripts/circuit_psi_receiver_example.sh.in ${SETOPS_EXAMPLE_SCRIPTS_INSTALL_DIR}/circuit_psi_receiver_example.sh @ONLY)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/scripts/circuit_psi_sender_example.sh.in ${SETOPS_EXAMPLE_SCRIPTS_INSTALL_DIR}/circuit_psi_sender_example.sh @ONLY)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/scripts/kkrt_psi_receiver_example.sh.in ${SETOPS_EXAMPLE_SCRIPTS_INSTALL_DIR}/kkrt_psi_receiver_example.sh @ONLY)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/scripts/kkrt_psi_sender_example.sh.in ${SETOPS_EXAMPLE_SCRIPTS_INSTALL_DIR}/kkrt_psi_sender_example.sh @ONLY)
 endif()

@@ -2,12 +2,14 @@
 
 ## Quick Start
 
-We provide two pairs of scripts (under ["scripts"](scripts) directory) to help users run our protocols in PETAce-SetOps with different settings.
+We provide four pairs of scripts (under ["scripts"](scripts) directory) to help users run our protocols in PETAce-SetOps with different settings.
 
 To run as Party A (a sender):
 
 ```bash
 bash build/example/scripts/ecdh_psi_sender_example.sh
+bash build/example/scripts/kkrt_psi_sender_example.sh
+bash build/example/scripts/circuit_psi_sender_example.sh
 bash build/example/scripts/ecdh_psi_sender_use_file_data.sh
 ```
 
@@ -15,12 +17,16 @@ To run as Party B (a receiver):
 
 ```bash
 bash build/example/scripts/ecdh_psi_receiver_example.sh
+bash build/example/scripts/kkrt_psi_receiver_example.sh
+bash build/example/scripts/circuit_psi_receiver_example.sh
 bash build/example/scripts/ecdh_psi_receiver_use_file_data.sh
 ```
 
 | Party A                            | Party B                              | Description                                                                                                                                                                                                                                                                  |
 |------------------------------------|--------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | "ecdh_psi_sender_example.sh"       | "ecdh_psi_receiver_example.sh"       | An example of ECDH-PSI using random data.                                                                                                                                                                                                                                    |
+| "kkrt_psi_sender_example.sh"       | "kkrt_psi_receiver_example.sh"       | An example of KKRT-PSI using random data.                                                                                                                                                                                                                                    |
+| "circuit_psi_sender_example.sh"    | "circuit_psi_receiver_example.sh"    | An example of Circuit-PSI using random data.                                                                                                                                                                                                                                    |
 | "ecdh_psi_sender_use_file_data.sh" | "ecdh_psi_receiver_use_file_data.sh" | An example of ECDH-PSI using file data. Before running this script, please change the `input_file` and `output_file` of the JSON configuration of [Party A](json/ecdh_psi_sender.json) and [Party B](json/ecdh_psi_receiver.json) to the correct absolute path of the files. |
 
 Please refer to [Scripts Description](scripts/README.md) for more details about parameters description.

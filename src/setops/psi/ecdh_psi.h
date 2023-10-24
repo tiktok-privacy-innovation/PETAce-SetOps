@@ -73,7 +73,7 @@ public:
      * @param[in] net The network interface (e.g., PETAce-Network interface).
      * @param[in] params The PSI parameters configuration.
      */
-    void init(std::shared_ptr<network::Network> net, const json& params) override;
+    void init(const std::shared_ptr<network::Network>& net, const json& params) override;
 
     /**
      * @brief Preprocess data and stores results in preprocessed_keys.
@@ -84,7 +84,7 @@ public:
      * @param[in] input_keys The raw input keys to perform intersection, such as phone numbers and emails.
      * @param[out] preprocessed_keys The preprocessed keys via hashing.
      */
-    void preprocess_data(std::shared_ptr<network::Network> net, const std::vector<std::string>& input_keys,
+    void preprocess_data(const std::shared_ptr<network::Network>& net, const std::vector<std::string>& input_keys,
             std::vector<std::string>& preprocessed_keys) const override;
 
     /**
@@ -100,7 +100,7 @@ public:
      * @param[in] input_keys The input keys  to perform intersection, such as phone numbers and emails.
      * @param[out] output_keys The intersection corresponding to input keys.
      */
-    void process(std::shared_ptr<network::Network> net, const std::vector<std::string>& input_keys,
+    void process(const std::shared_ptr<network::Network>& net, const std::vector<std::string>& input_keys,
             std::vector<std::string>& output_keys) const override;
     /**
      * @brief Performs intersection and returns cardinality.
@@ -110,7 +110,7 @@ public:
      * @return A std::size_t number indicates the cardinality.
      */
     std::size_t process_cardinality_only(
-            std::shared_ptr<network::Network> net, const std::vector<std::string>& input_keys) const override;
+            const std::shared_ptr<network::Network>& net, const std::vector<std::string>& input_keys) const override;
 
 protected:
     EcdhPSI(const EcdhPSI& copy) = delete;
@@ -123,7 +123,7 @@ protected:
 
 private:
     // Checks the validity and consistency of JSON params of both parties.
-    void check_params(std::shared_ptr<network::Network> net) override;
+    void check_params(const std::shared_ptr<network::Network>& net) override;
 
     // Encrypts inpute keys with its ECC secret key.
     // Stores results in encrypted_keys.

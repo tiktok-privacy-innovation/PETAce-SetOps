@@ -14,13 +14,15 @@
 
 cmake_minimum_required(VERSION 3.14)
 
-project(SETOPSTest VERSION 0.1.0 LANGUAGES CXX C)
+project(SETOPSTest VERSION 0.2.0 LANGUAGES CXX C)
 
 # If not called from root CMakeLists.txt
 if(NOT DEFINED SETOPS_BUILD_TEST)
     set(SETOPS_BUILD_TEST ON)
 
-    find_package(PETAce-SetOps 0.1.0 EXACT REQUIRED)
+    find_package(PETAce-SetOps 0.2.0 EXACT REQUIRED)
+
+    add_compile_options(-msse4.2 -Wno-ignored-attributes -mavx)
 
     # Must define these variables and include macros
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
@@ -64,6 +66,8 @@ if(SETOPS_BUILD_TEST)
     set(SETOPS_TEST_FILES
         ${CMAKE_CURRENT_LIST_DIR}/data/csv_data_provider_test.cpp
         ${CMAKE_CURRENT_LIST_DIR}/psi/ecdh_psi_test.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/psi/kkrt_psi_test.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/pjc/circuit_psi_test.cpp
         ${CMAKE_CURRENT_LIST_DIR}/memory_psi_factory_test.cpp
         ${CMAKE_CURRENT_LIST_DIR}/test_runner.cpp
     )

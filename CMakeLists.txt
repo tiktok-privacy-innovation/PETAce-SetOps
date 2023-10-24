@@ -30,7 +30,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 message(STATUS "Build type (CMAKE_BUILD_TYPE): ${CMAKE_BUILD_TYPE}")
 
-project(SETOPS VERSION 0.1.0 LANGUAGES CXX C)
+project(SETOPS VERSION 0.2.0 LANGUAGES CXX C)
 
 ########################
 # Global configuration #
@@ -142,6 +142,8 @@ if (NOT SETOPS_AMD64 AND NOT SETOPS_ARM64)
     message(FATAL_ERROR "Supported target architectures are x86_64 and arm64")
 endif()
 
+add_compile_options(-msse4.2 -Wno-ignored-attributes -mavx)
+
 # Enable test coverage
 set(SETOPS_ENABLE_GCOV_STR "Enable gcov")
 option(SETOPS_ENABLE_GCOV ${SETOPS_ENABLE_GCOV_STR} OFF)
@@ -201,7 +203,7 @@ if(NOT TARGET OpenMP::OpenMP_CXX)
 endif()
 
 # PETAce-Network::network
-find_package(PETAce-Network 0.1 QUIET CONFIG)
+find_package(PETAce-Network 0.2 QUIET CONFIG)
 if(PETAce-Network_FOUND)
     message(STATUS "PETAce-Network: found")
     if(PETAce-Network_STATIC_FOUND)
@@ -225,7 +227,7 @@ else()
 endif()
 
 # PETAce-Solo::solo
-find_package(PETAce-Solo 0.1 QUIET CONFIG)
+find_package(PETAce-Solo 0.2 QUIET CONFIG)
 if(PETAce-Solo_FOUND)
     message(STATUS "PETAce-Solo: found")
     if(PETAce-Solo_STATIC_FOUND)
@@ -245,6 +247,54 @@ else()
         set(SETOPS_BUILD_SOLO TRUE CACHE BOOL "" FORCE)
     else()
         message(FATAL_ERROR "PETAce-Solo: not found, please download and install manually")
+    endif()
+endif()
+
+# PETAce-Verse::verse
+find_package(PETAce-Verse 0.2 QUIET CONFIG)
+if(PETAce-Verse_FOUND)
+    message(STATUS "PETAce-Verse: found")
+    if(PETAce-Verse_STATIC_FOUND)
+        set(verse "PETAce-Verse::verse")
+    else()
+        set(verse "PETAce-Verse::verse_shared")
+    endif()
+else()
+    if(SETOPS_BUILD_DEPS)
+        message(STATUS "PETAce-Verse: download ...")
+        setops_fetch_thirdparty_content(PETAce-Verse)
+        if(TARGET verse)
+            set(verse "verse")
+        else()
+            set(verse "verse_shared")
+        endif()
+        set(SETOPS_BUILD_VERSE TRUE CACHE BOOL "" FORCE)
+    else()
+        message(FATAL_ERROR "PETAce-Verse: not found, please download and install manually")
+    endif()
+endif()
+
+# PETAce-Duet::duet
+find_package(PETAce-Duet 0.2 QUIET CONFIG)
+if(PETAce-Duet_FOUND)
+    message(STATUS "PETAce-Duet: found")
+    if(PETAce-Duet_STATIC_FOUND)
+        set(duet "PETAce-Duet::duet")
+    else()
+        set(duet "PETAce-Duet::duet_shared")
+    endif()
+else()
+    if(SETOPS_BUILD_DEPS)
+        message(STATUS "PETAce-Duet: download ...")
+        setops_fetch_thirdparty_content(PETAce-Duet)
+        if(TARGET duet)
+            set(duet "duet")
+        else()
+            set(duet "duet_shared")
+        endif()
+        set(SETOPS_BUILD_DUET TRUE CACHE BOOL "" FORCE)
+    else()
+        message(FATAL_ERROR "PETAce-Duet: not found, please download and install manually")
     endif()
 endif()
 
@@ -335,6 +385,24 @@ if(NOT SETOPS_BUILD_SHARED_LIBS)
     target_link_libraries(setops PUBLIC ${solo})
     set(SETOPS_CARRY_SOLO FALSE)
 
+    if(SETOPS_BUILD_VERSE)
+        add_dependencies(setops ${verse})
+        target_include_directories(setops PUBLIC
+            $<BUILD_INTERFACE:$<TARGET_PROPERTY:${verse},INTERFACE_INCLUDE_DIRECTORIES>>
+            $<INSTALL_INTERFACE:${SETOPS_INCLUDES_INSTALL_DIR}>)
+    endif()
+    target_link_libraries(setops PUBLIC ${verse})
+    set(SETOPS_CARRY_VERSE FALSE)
+
+    if(SETOPS_BUILD_DUET)
+        add_dependencies(setops ${duet})
+        target_include_directories(setops PUBLIC
+            $<BUILD_INTERFACE:$<TARGET_PROPERTY:${duet},INTERFACE_INCLUDE_DIRECTORIES>>
+            $<INSTALL_INTERFACE:${SETOPS_INCLUDES_INSTALL_DIR}>)
+    endif()
+    target_link_libraries(setops PUBLIC ${duet} m)
+    set(SETOPS_CARRY_DUET FALSE)
+
     target_link_libraries(setops PUBLIC nlohmann_json::nlohmann_json)
     target_link_libraries(setops PUBLIC Threads::Threads OpenMP::OpenMP_CXX)
 
@@ -385,6 +453,24 @@ else()
     endif()
     target_link_libraries(setops_shared PUBLIC ${solo})
     set(SETOPS_CARRY_SOLO FALSE)
+
+    if(SETOPS_BUILD_VERSE)
+        add_dependencies(setops_shared ${verse})
+        target_include_directories(setops_shared PUBLIC
+            $<BUILD_INTERFACE:$<TARGET_PROPERTY:${verse},INTERFACE_INCLUDE_DIRECTORIES>>
+            $<INSTALL_INTERFACE:${SETOPS_INCLUDES_INSTALL_DIR}>)
+    endif()
+    target_link_libraries(setops_shared PUBLIC ${verse})
+    set(SETOPS_CARRY_VERSE FALSE)
+
+    if(SETOPS_BUILD_DUET)
+        add_dependencies(setops_shared ${duet})
+        target_include_directories(setops_shared PUBLIC
+            $<BUILD_INTERFACE:$<TARGET_PROPERTY:${duet},INTERFACE_INCLUDE_DIRECTORIES>>
+            $<INSTALL_INTERFACE:${SETOPS_INCLUDES_INSTALL_DIR}>)
+    endif()
+    target_link_libraries(setops_shared PUBLIC ${duet} m)
+    set(SETOPS_CARRY_DUET FALSE)
 
     target_link_libraries(setops_shared PUBLIC nlohmann_json::nlohmann_json)
     target_link_libraries(setops_shared PUBLIC Threads::Threads OpenMP::OpenMP_CXX)
@@ -448,6 +534,12 @@ if(SETOPS_BUILD_DEPS)
     if(SETOPS_BUILD_SOLO)
         install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} --build ${solo_BINARY_DIR} -t install)")
     endif()
+    if(SETOPS_BUILD_VERSE)
+        install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} --build ${verse_BINARY_DIR} -t install)")
+    endif()
+    if(SETOPS_BUILD_DUET)
+        install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} --build ${duet_BINARY_DIR} -t install)")
+    endif()
     if(SETOPS_BUILD_NETWORK)
         install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} --build ${network_BINARY_DIR} -t install)")
     endif()
@@ -482,4 +574,18 @@ if(SETOPS_BUILD_TEST)
             COMMAND gcovr -r ${CMAKE_CURRENT_LIST_DIR} -f \"src\" -e \".+\(test\\.cpp\)\" --xml-pretty -o "${CMAKE_CURRENT_BINARY_DIR}/report/coverage.xml"
             WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
     endif()
+endif()
+
+##################
+# SETOPS python #
+##################
+
+# [OPTION] SETOPS_BUILD_PYTHON (DEFAULT: OFF)
+# Build a shared library if set to ON.
+set(SETOPS_BUILD_PYTHON_STR "Build python shared library")
+option(SETOPS_BUILD_PYTHON ${SETOPS_BUILD_PYTHON_STR} OFF)
+message(STATUS "SETOPS_BUILD_PYTHON: ${SETOPS_BUILD_PYTHON}")
+
+if(SETOPS_BUILD_PYTHON)
+    add_subdirectory(python)
 endif()

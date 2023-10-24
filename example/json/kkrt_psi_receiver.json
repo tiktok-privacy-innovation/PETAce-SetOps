@@ -1,0 +1,26 @@
+{
+    "network": {
+        "address": "127.0.0.1",
+        "remote_port": 30330,
+        "local_port": 30331,
+        "timeout": 90,
+        "scheme": 0
+    },
+    "common": {
+        "ids_num": 1,
+        "is_sender": false,
+        "verbose": true,
+        "memory_psi_scheme": "psi",
+        "psi_scheme": "ecdh"
+    },
+    "data": {
+        "input_file": "/data/receiver_input_file.csv",
+        "has_header": false,
+        "output_file": "/data/receiver_output_file.csv"
+    },
+    "kkrt_psi_params": {
+        "epsilon": 1.27,
+        "fun_num": 3,
+        "sender_obtain_result": true
+    }
+}

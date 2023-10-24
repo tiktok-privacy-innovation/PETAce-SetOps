@@ -19,3 +19,9 @@
 
 void ecdh_psi_example(const std::string& config_path, const std::string& log_path, bool use_random_data,
         std::size_t intersection_size, std::size_t intersection_ratio);
+
+void kkrt_psi_example(const std::string& config_path, const std::string& log_path, bool use_random_data,
+        std::size_t intersection_size, std::size_t intersection_ratio);
+
+void circuit_psi_example(const std::string& config_path, const std::string& log_path, bool use_random_data,
+        std::size_t intersection_size, std::size_t intersection_ratio);

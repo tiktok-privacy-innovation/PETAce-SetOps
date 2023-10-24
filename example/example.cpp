@@ -19,13 +19,31 @@
 DEFINE_string(config_path, "./json/ecdh_psi_sender.json", "the path where the sender's config file located");
 DEFINE_bool(use_random_data, true, "use randomly generated data or read data from files.");
 DEFINE_string(log_path, "./logs/", "the directory where log file located");
+DEFINE_uint64(scheme, 1, "the psi or pjc scheme. 1: ECDH PSI; 2: Circuit PSI");
 // The following two variables only make sense if you use random data.
 DEFINE_uint64(intersection_size, 10, "the intersection size of both party.");
 DEFINE_uint64(intersection_ratio, 10, "the ratio of sender/receiver data size to intersection size.");
 
 int main(int argc, char* argv[]) {
     gflags::ParseCommandLineFlags(&argc, &argv, true);
-    ecdh_psi_example(FLAGS_config_path, FLAGS_log_path, FLAGS_use_random_data, FLAGS_intersection_size,
-            FLAGS_intersection_ratio);
+
+    switch (FLAGS_scheme) {
+        case 1:
+            ecdh_psi_example(FLAGS_config_path, FLAGS_log_path, FLAGS_use_random_data, FLAGS_intersection_size,
+                    FLAGS_intersection_ratio);
+            break;
+        case 2:
+            kkrt_psi_example(FLAGS_config_path, FLAGS_log_path, FLAGS_use_random_data, FLAGS_intersection_size,
+                    FLAGS_intersection_ratio);
+            break;
+        case 3:
+            circuit_psi_example(FLAGS_config_path, FLAGS_log_path, FLAGS_use_random_data, FLAGS_intersection_size,
+                    FLAGS_intersection_ratio);
+            break;
+
+        case 0:
+            return 0;
+    }
+
     return 0;
 }

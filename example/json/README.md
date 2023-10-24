@@ -28,6 +28,17 @@ Please modify the relevant parameters according to your settings.
     "ecdh_params": {
         "curve_id": 415,
         "obtain_result": false
+    },
+    "kkrt_psi_params": {
+        "epsilon": 1.27,
+        "fun_num": 3,
+        "sender_obtain_result": true
+    },
+    "circuit_psi_params": {
+        "epsilon": 1.27,
+        "fun_epsilon": 1.27,
+        "fun_num": 3,
+        "hint_fun_num": 3
     }
 }
 ```
@@ -55,3 +66,12 @@ Please modify the relevant parameters according to your settings.
 | `ecdh_params`              |          |        |                                                                              |                                  |
 | &emsp; `curve_id`          | required | uint64 | Ecc curve id in openssl.                                                     | `NID_X9_62_prime256v1(415)`      |
 | &emsp; `obtain_result`     | required | bool   | Set true if the party can obatin intersection result.                        | `receiver:true, sender:false`    |
+| `kkrt_psi_params`          |          |        |                                                                              |                                  |
+| &emsp; `epsilon`           | required | float  | The parameter (1 + epsilon) in cuckoo hash for the stashless setting.        | `1.27`                           |
+| &emsp; `fun_num`           | required | uint64 | The number of hash functions in cuckoo hash for the stashless setting.       | `3`                              |
+| &emsp; `sender_obtain_result`     | required | bool   | Set true if the sender can obatin intersection result.                | `true`                           |
+| `circuit_psi_params`       |          |        |                                                                              |                                  |
+| &emsp; `epsilon`           | required | float  | The parameter (1 + epsilon) of cuckoo hash for the stashless setting.        | `1.27`                           |
+| &emsp; `fun_num`           | required | uint64 | The number of hash functions of cuckoo hash for the stashless setting.       | `3`                              |
+| &emsp; `fun_epsilon`       | required | float  | The parameter (1 + epsilon) of cuckoo hash for the opprf stashless setting.  | `1.27`                           |
+| &emsp; `hint_fun_num`      | required | uint64 | The number of hash functions of cuckoo hash for the opprf stashless setting. | `3`                              |

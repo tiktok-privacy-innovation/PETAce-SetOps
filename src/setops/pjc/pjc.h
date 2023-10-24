@@ -27,7 +27,7 @@ namespace setops {
 
 using json = nlohmann::json;
 
-enum class PJCScheme : std::uint32_t { DPCA_PSI = 0, Circuit_PSI = 1, VOLE_PSI = 2 };
+enum class PJCScheme : std::uint32_t { DPCA_PSI = 0, CIRCUIT_PSI = 1, VOLE_PSI = 2 };
 
 /**
  * @brief Abstract class for various pjc(private join and compute) protocols' implementation.
@@ -45,22 +45,7 @@ public:
      * @param[in] net The network interface (e.g., PETAce-Network interface).
      * @param[in] params The PJC parameters configuration.
      */
-    virtual void init(std::shared_ptr<network::Network> net, const json& params) = 0;
-
-    /**
-     * @brief Preprocess keys and features.
-     *
-     * @param[in] net The network interface (e.g., PETAce-Network interface).
-     * @param[in] input_keys The raw input keys to perform intersection, such as phone numbers and emails.
-     * @param[in] input_featuress The related features appended to input keys.
-     * @param[out] preprocessed_keys The preprocessed keys via hashing.
-     * @param[out] output_features The preprocessed features.
-     */
-    virtual void preprocess_data(std::shared_ptr<network::Network> net,
-            const std::vector<std::vector<std::string>>& input_keys,
-            const std::vector<std::vector<std::uint64_t>>& input_features,
-            std::vector<std::vector<std::string>>& preprocessed_keys,
-            std::vector<std::vector<std::uint64_t>>& output_features) const = 0;
+    virtual void init(const std::shared_ptr<network::Network>& net, const json& params) = 0;
 
     /**
      * @brief Performs intersection and stores secret shares in output shares for both parties.
@@ -70,7 +55,7 @@ public:
      * @param[in] input_features The related features appended to input keys.
      * @param[out] output_shares The secret shares of input features corresponding to intersection keys.
      */
-    virtual void process(std::shared_ptr<network::Network> net, const std::vector<std::vector<std::string>>& input_keys,
+    virtual void process(const std::shared_ptr<network::Network>& net, const std::vector<std::string>& input_keys,
             const std::vector<std::vector<std::uint64_t>>& input_features,
             std::vector<std::vector<std::uint64_t>>& output_shares) const = 0;
 
@@ -83,8 +68,8 @@ protected:
 
     PJC& operator=(PJC&& assign) = delete;
 
-    // Checks the validity and consistency of JSON params of both parties.
-    virtual void check_params() = 0;
+    // Checks the validity and consistency of json params of both parties.
+    virtual void check_params(const std::shared_ptr<network::Network>& net) = 0;
 };
 
 template <PJCScheme scheme>

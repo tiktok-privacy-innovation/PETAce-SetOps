@@ -21,4 +21,4 @@ LOG_DIR="@LOG_DIR@"
 mkdir -p "${LOG_DIR}/psi/ecdh_psi/example/file"
 
 log_path="${LOG_DIR}/psi/ecdh_psi/example/file"
-"${BIN_DIR}/setops_example" --config_path="${JSON_DIR}/ecdh_psi_receiver.json" --log_path=$log_path --use_random_data=false
+"${BIN_DIR}/setops_example" --config_path="${JSON_DIR}/ecdh_psi_receiver.json" --log_path=$log_path --use_random_data=false --scheme=1

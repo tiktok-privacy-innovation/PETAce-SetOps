@@ -21,15 +21,23 @@ namespace setops {
 
 class MemoryPSIFactoryTest : public ::testing::Test {};
 
-TEST_F(MemoryPSIFactoryTest, psi) {
+TEST_F(MemoryPSIFactoryTest, ecdh_psi) {
     MemoryPSIFactory<MemoryPSIScheme::PSI>::get_instance().build(PSIScheme::ECDH_PSI);
+}
+
+TEST_F(MemoryPSIFactoryTest, kkrt_psi) {
+    MemoryPSIFactory<MemoryPSIScheme::PSI>::get_instance().build(PSIScheme::KKRT_PSI);
 }
 
 TEST_F(MemoryPSIFactoryTest, psi_not_registered) {
     auto not_registered_test = []() {
-        MemoryPSIFactory<MemoryPSIScheme::PSI>::get_instance().build(PSIScheme::KKRT_PSI);
+        MemoryPSIFactory<MemoryPSIScheme::PSI>::get_instance().build(PSIScheme::VOLE_PSI);
     };
     EXPECT_THROW(not_registered_test(), std::invalid_argument);
+}
+
+TEST_F(MemoryPSIFactoryTest, circuit_psi) {
+    MemoryPSIFactory<MemoryPSIScheme::PJC>::get_instance().build(PJCScheme::CIRCUIT_PSI);
 }
 
 TEST_F(MemoryPSIFactoryTest, pjc_not_registered) {

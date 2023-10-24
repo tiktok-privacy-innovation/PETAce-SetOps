@@ -23,6 +23,7 @@ install(
         ${CMAKE_CURRENT_LIST_DIR}/dummy_data_util.h
         ${CMAKE_CURRENT_LIST_DIR}/parameter_check.h
         ${CMAKE_CURRENT_LIST_DIR}/permutation.h
+        ${CMAKE_CURRENT_LIST_DIR}/serialize.h
         ${CMAKE_CURRENT_LIST_DIR}/time.h
     DESTINATION
         ${SETOPS_INCLUDES_INSTALL_DIR}/setops/util

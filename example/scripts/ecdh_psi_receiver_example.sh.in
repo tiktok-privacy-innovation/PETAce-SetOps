@@ -27,7 +27,7 @@ balanced_intersection_size_array=(500)
 for(( i=0;i<${#balanced_intersection_size_array[@]};i++))
 do
 echo "Test intersection size ${balanced_intersection_size_array[i]}"
-"${BIN_DIR}/setops_example" --config_path="${JSON_DIR}/ecdh_psi_receiver.json" --log_path=$balanced_log_path_bandwith --use_random_data=true --intersection_size=${balanced_intersection_size_array[i]} --intersection_ratio=2
+"${BIN_DIR}/setops_example" --config_path="${JSON_DIR}/ecdh_psi_receiver.json" --log_path=$balanced_log_path_bandwith --use_random_data=true --intersection_size=${balanced_intersection_size_array[i]} --intersection_ratio=2 --scheme=1
 done
 
 unbalanced_log_path_bandwith="${LOG_DIR}/psi/ecdh_psi/example/unbalanced"
@@ -36,5 +36,5 @@ unbalanced_intersection_size_array=(10)
 for(( i=0;i<${#unbalanced_intersection_size_array[@]};i++))
 do
 echo "Test intersection size ${unbalanced_intersection_size_array[i]}"
-"${BIN_DIR}/setops_example" --config_path="${JSON_DIR}/ecdh_psi_receiver.json" --log_path=$unbalanced_log_path_bandwith --use_random_data=true --intersection_size=${unbalanced_intersection_size_array[i]} --intersection_ratio=10
+"${BIN_DIR}/setops_example" --config_path="${JSON_DIR}/ecdh_psi_receiver.json" --log_path=$unbalanced_log_path_bandwith --use_random_data=true --intersection_size=${unbalanced_intersection_size_array[i]} --intersection_ratio=10 --scheme=1
 done

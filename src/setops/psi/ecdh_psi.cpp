@@ -29,7 +29,7 @@
 namespace petace {
 namespace setops {
 
-void EcdhPSI::init(std::shared_ptr<network::Network> net, const json& params) {
+void EcdhPSI::init(const std::shared_ptr<network::Network>& net, const json& params) {
     auto defalut_config = R"({
         "network": {
             "address": "127.0.0.1",
@@ -86,7 +86,7 @@ void EcdhPSI::init(std::shared_ptr<network::Network> net, const json& params) {
     num_threads_ = omp_get_max_threads();
 }
 
-void EcdhPSI::preprocess_data(std::shared_ptr<network::Network> net, const std::vector<std::string>& input_keys,
+void EcdhPSI::preprocess_data(const std::shared_ptr<network::Network>& net, const std::vector<std::string>& input_keys,
         std::vector<std::string>& preprocessed_keys) const {
     (void)net;
     (void)input_keys;
@@ -94,7 +94,7 @@ void EcdhPSI::preprocess_data(std::shared_ptr<network::Network> net, const std::
     LOG_IF(INFO, verbose_) << "preprocess input keys done.";
 }
 
-void EcdhPSI::process(std::shared_ptr<network::Network> net, const std::vector<std::string>& input_keys,
+void EcdhPSI::process(const std::shared_ptr<network::Network>& net, const std::vector<std::string>& input_keys,
         std::vector<std::string>& output_keys) const {
     auto prng_factory = petace::solo::PRNGFactory(petace::solo::PRNGScheme::SHAKE_128);
     auto prng = prng_factory.create();
@@ -143,7 +143,7 @@ void EcdhPSI::process(std::shared_ptr<network::Network> net, const std::vector<s
 }
 
 std::size_t EcdhPSI::process_cardinality_only(
-        std::shared_ptr<network::Network> net, const std::vector<std::string>& input_keys) const {
+        const std::shared_ptr<network::Network>& net, const std::vector<std::string>& input_keys) const {
     auto prng_factory = petace::solo::PRNGFactory(petace::solo::PRNGScheme::SHAKE_128);
     auto prng = prng_factory.create();
     std::vector<std::size_t> permutation;
@@ -191,7 +191,7 @@ std::size_t EcdhPSI::process_cardinality_only(
     return cardinality;
 }
 
-void EcdhPSI::check_params(std::shared_ptr<network::Network> net) {
+void EcdhPSI::check_params(const std::shared_ptr<network::Network>& net) {
     int curve_id = params_["ecdh_params"]["curve_id"];
     check_consistency(is_sender_, net, "ecc_curve_id", curve_id);
     check_equal<int>("curve_id", curve_id, 415);

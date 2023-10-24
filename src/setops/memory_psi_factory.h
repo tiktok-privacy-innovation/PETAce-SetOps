@@ -65,6 +65,7 @@ public:
 protected:
     MemoryPSIFactory() {
         register_psi(PSIScheme::ECDH_PSI, CreatePSI<PSIScheme::ECDH_PSI>);
+        register_psi(PSIScheme::KKRT_PSI, CreatePSI<PSIScheme::KKRT_PSI>);
     }
     ~MemoryPSIFactory() {
     }
@@ -110,6 +111,7 @@ public:
 
 protected:
     MemoryPSIFactory() {
+        register_pjc(PJCScheme::CIRCUIT_PSI, CreatePJC<PJCScheme::CIRCUIT_PSI>);
     }
     ~MemoryPSIFactory() {
     }

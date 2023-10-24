@@ -19,7 +19,7 @@ balanced_intersection_size_array=(500)
 for(( i=0;i<${#balanced_intersection_size_array[@]};i++))
 do
 echo "Test intersection size ${balanced_intersection_size_array[i]}"
-"${BIN_DIR}/setops_example" --config_path="${JSON_DIR}/ecdh_psi_sender.json" --log_path=$balanced_log_path_bandwith --use_random_data=true --intersection_size=${balanced_intersection_size_array[i]} --intersection_ratio=2
+"${BIN_DIR}/setops_example" --config_path="${JSON_DIR}/ecdh_psi_sender.json" --log_path=$balanced_log_path_bandwith --use_random_data=true --intersection_size=${balanced_intersection_size_array[i]} --intersection_ratio=2  --scheme=1
 done
 
 unbalanced_log_path_bandwith="${LOG_DIR}/psi/ecdh_psi/example/unbalanced"
@@ -28,16 +28,17 @@ unbalanced_intersection_size_array=(10)
 for(( i=0;i<${#unbalanced_intersection_size_array[@]};i++))
 do
 echo "Test intersection size ${unbalanced_intersection_size_array[i]}"
-"${BIN_DIR}/setops_example" --config_path="${JSON_DIR}/ecdh_psi_sender.json" --log_path=$unbalanced_log_path_bandwith --use_random_data=true --intersection_size=${unbalanced_intersection_size_array[i]} --intersection_ratio=100
+"${BIN_DIR}/setops_example" --config_path="${JSON_DIR}/ecdh_psi_sender.json" --log_path=$unbalanced_log_path_bandwith --use_random_data=true --intersection_size=${unbalanced_intersection_size_array[i]} --intersection_ratio=100  --scheme=1
 done
 ```
 
 ## Parameters
 
-| Name                 | Property                           | Type   | Description                                                  | Default Value                   |
-|----------------------|------------------------------------|--------|--------------------------------------------------------------|---------------------------------|
-| `config_path`        | required                           | string | The path where the sender's config file located.             | `"./json/ecdh_psi_sender.json"` |
-| `use_random_data`    | required                           | bool   | Use randomly generated data or read data from files.         | `true`                          |
-| `log_path`           | optimal                            | string | The directory where log file located.                        | `"./logs/"`                     |
-| `intersection_size`  | required if use_random_data = true | uint64 | The intersection size of both party.                         | `10`                            |
-| `intersection_ratio` | required if use_random_data = true | uint64 | The ratio of sender/receiver data size to intersection size. | `100`                           |
+| Name                 | Property                           | Type   | Description                                                                             | Default Value                   |
+|----------------------|------------------------------------|--------|-----------------------------------------------------------------------------------------|---------------------------------|
+| `config_path`        | required                           | string | The path where the sender's config file located.                                        | `"./json/ecdh_psi_sender.json"` |
+| `use_random_data`    | required                           | bool   | Use randomly generated data or read data from files.                                    | `true`                          |
+| `log_path`           | optimal                            | string | The directory where log file located.                                                   | `"./logs/"`                     |
+| `intersection_size`  | required if use_random_data = true | uint64 | The intersection size of both party.                                                    | `10`                            |
+| `intersection_ratio` | required if use_random_data = true | uint64 | The ratio of sender/receiver data size to intersection size.                            | `100`                           |
+| `scheme`             | required                           | uint64 | The psi/pjc scheme which needs to be selected. 1: ecdh-psi. 2: kkrt-psi. 3: circuit-psi | `1`                             |

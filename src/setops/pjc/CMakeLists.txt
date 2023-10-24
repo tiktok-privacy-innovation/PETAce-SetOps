@@ -14,11 +14,13 @@
 
 # Source files in this directory
 set(SETOPS_SOURCE_FILES ${SETOPS_SOURCE_FILES}
+    ${CMAKE_CURRENT_LIST_DIR}/circuit_psi.cpp
 )
 
 # Add header files for installation
 install(
     FILES
+        ${CMAKE_CURRENT_LIST_DIR}/circuit_psi.h
         ${CMAKE_CURRENT_LIST_DIR}/pjc.h
     DESTINATION
         ${SETOPS_INCLUDES_INSTALL_DIR}/setops/pjc

@@ -17,16 +17,26 @@
 #include <vector>
 
 #include "solo/util/defines.h"
+#include "verse/util/defines.h"
 
 #include "setops/util/config.h"
 
 namespace petace {
 namespace setops {
 
-using Byte = petace::solo::Byte;
-using ByteVector = std::vector<Byte>;
 const std::size_t kEccPointLen = 33;
 const std::size_t kECCCompareBytesLen = 12;
-
+const std::size_t kRandSeedBytesLen = 16;
+const std::size_t kItemBytesLen = 16;
+const std::size_t kReduceStatisticsLen = 12;
+const std::int64_t kReduceBitsLen = 0x3fffffffffffffff;
+using Byte = petace::solo::Byte;
+using block = petace::verse::block;
+using ByteVector = std::vector<Byte>;
+using Item = std::array<Byte, kItemBytesLen>;
+struct HashLocMap {
+    int bin;
+    int index;
+};
 }  // namespace setops
 }  // namespace petace

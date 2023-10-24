@@ -80,7 +80,7 @@ public:
      * @param[in] net The network interface (e.g., PETAce-Network interface).
      * @param[in] params The PSI parameters configuration.
      */
-    virtual void init(std::shared_ptr<network::Network> net, const json& params) = 0;
+    virtual void init(const std::shared_ptr<network::Network>& net, const json& params) = 0;
 
     /**
      * @brief Preprocess data and stores results in preprocessed_keys.
@@ -89,17 +89,17 @@ public:
      * @param[in] input_keys The raw input keys to perform intersection, such as phone numbers and emails.
      * @param[out] preprocessed_keys The preprocessed keys via hashing.
      */
-    virtual void preprocess_data(std::shared_ptr<network::Network> net, const std::vector<std::string>& input_keys,
-            std::vector<std::string>& preprocessed_keys) const = 0;
+    virtual void preprocess_data(const std::shared_ptr<network::Network>& net,
+            const std::vector<std::string>& input_keys, std::vector<std::string>& preprocessed_keys) const = 0;
 
     /**
      * @brief Performs intersection and stores intersection results in output_keys.
      *
      * @param[in] net The network interface (e.g., PETAce-Network interface).
-     * @param[in] input_keys The input keys  to perform intersection, such as phone numbers and emails.
+     * @param[in] input_keys The input keys to perform intersection, such as phone numbers and emails.
      * @param[out] output_keys The intersection corresponding to input keys.
      */
-    virtual void process(std::shared_ptr<network::Network> net, const std::vector<std::string>& input_keys,
+    virtual void process(const std::shared_ptr<network::Network>& net, const std::vector<std::string>& input_keys,
             std::vector<std::string>& output_keys) const = 0;
 
     /**
@@ -110,7 +110,7 @@ public:
      * @return A std::size_t number indicates the cardinality.
      */
     virtual std::size_t process_cardinality_only(
-            std::shared_ptr<network::Network> net, const std::vector<std::string>& input_keys) const = 0;
+            const std::shared_ptr<network::Network>& net, const std::vector<std::string>& input_keys) const = 0;
 
 protected:
     PSI(const PSI& copy) = delete;
@@ -122,7 +122,7 @@ protected:
     PSI& operator=(PSI&& assign) = delete;
 
     // Checks the validity and consistency of JSON params of both parties.
-    virtual void check_params(std::shared_ptr<network::Network> net) = 0;
+    virtual void check_params(const std::shared_ptr<network::Network>& net) = 0;
 };
 
 template <PSIScheme scheme>

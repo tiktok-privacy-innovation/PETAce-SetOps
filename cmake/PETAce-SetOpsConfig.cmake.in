@@ -42,6 +42,8 @@ set(SETOPS_BUILD_TYPE @CMAKE_BUILD_TYPE@)
 set(SETOPS_CARRY_GLOG @SETOPS_CARRY_GLOG@)
 set(SETOPS_CARRY_NETWORK @SETOPS_CARRY_NETWORK@)
 set(SETOPS_CARRY_SOLO @SETOPS_CARRY_SOLO@)
+set(SETOPS_CARRY_VERSE @SETOPS_CARRY_VERSE@)
+set(SETOPS_CARRY_DUET @SETOPS_CARRY_DUET@)
 
 setops_find_dependency(OpenMP REQUIRED)
 setops_find_dependency(nlohmann_json REQUIRED)
@@ -56,6 +58,14 @@ endif()
 
 if(NOT SETOPS_CARRY_SOLO)
     setops_find_dependency(PETAce-Solo REQUIRED)
+endif()
+
+if(NOT SETOPS_CARRY_VERSE)
+    setops_find_dependency(PETAce-Verse REQUIRED)
+endif()
+
+if(NOT SETOPS_CARRY_DUET)
+    setops_find_dependency(PETAce-Duet REQUIRED)
 endif()
 
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
