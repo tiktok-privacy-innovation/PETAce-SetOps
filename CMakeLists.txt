@@ -30,7 +30,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 message(STATUS "Build type (CMAKE_BUILD_TYPE): ${CMAKE_BUILD_TYPE}")
 
-project(SETOPS VERSION 0.2.0 LANGUAGES CXX C)
+project(SETOPS VERSION 0.3.0 LANGUAGES CXX C)
 
 ########################
 # Global configuration #
@@ -203,7 +203,7 @@ if(NOT TARGET OpenMP::OpenMP_CXX)
 endif()
 
 # PETAce-Network::network
-find_package(PETAce-Network 0.2 QUIET CONFIG)
+find_package(PETAce-Network 0.3 QUIET CONFIG)
 if(PETAce-Network_FOUND)
     message(STATUS "PETAce-Network: found")
     if(PETAce-Network_STATIC_FOUND)
@@ -227,7 +227,7 @@ else()
 endif()
 
 # PETAce-Solo::solo
-find_package(PETAce-Solo 0.2 QUIET CONFIG)
+find_package(PETAce-Solo 0.3 QUIET CONFIG)
 if(PETAce-Solo_FOUND)
     message(STATUS "PETAce-Solo: found")
     if(PETAce-Solo_STATIC_FOUND)
@@ -251,7 +251,7 @@ else()
 endif()
 
 # PETAce-Verse::verse
-find_package(PETAce-Verse 0.2 QUIET CONFIG)
+find_package(PETAce-Verse 0.3 QUIET CONFIG)
 if(PETAce-Verse_FOUND)
     message(STATUS "PETAce-Verse: found")
     if(PETAce-Verse_STATIC_FOUND)
@@ -275,7 +275,7 @@ else()
 endif()
 
 # PETAce-Duet::duet
-find_package(PETAce-Duet 0.2 QUIET CONFIG)
+find_package(PETAce-Duet 0.3 QUIET CONFIG)
 if(PETAce-Duet_FOUND)
     message(STATUS "PETAce-Duet: found")
     if(PETAce-Duet_STATIC_FOUND)
@@ -369,12 +369,9 @@ if(NOT SETOPS_BUILD_SHARED_LIBS)
         target_include_directories(setops PUBLIC
             $<BUILD_INTERFACE:$<TARGET_PROPERTY:${network},INTERFACE_INCLUDE_DIRECTORIES>>
             $<INSTALL_INTERFACE:${SETOPS_INCLUDES_INSTALL_DIR}>)
-        setops_combine_archives(setops ${network})
-        set(SETOPS_CARRY_NETWORK TRUE)
-    else()
-        target_link_libraries(setops PUBLIC ${network})
-        set(SETOPS_CARRY_NETWORK FALSE)
     endif()
+    target_link_libraries(setops PUBLIC ${network})
+    set(SETOPS_CARRY_NETWORK FALSE)
 
     if(SETOPS_BUILD_SOLO)
         add_dependencies(setops ${solo})
@@ -574,18 +571,4 @@ if(SETOPS_BUILD_TEST)
             COMMAND gcovr -r ${CMAKE_CURRENT_LIST_DIR} -f \"src\" -e \".+\(test\\.cpp\)\" --xml-pretty -o "${CMAKE_CURRENT_BINARY_DIR}/report/coverage.xml"
             WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
     endif()
-endif()
-
-##################
-# SETOPS python #
-##################
-
-# [OPTION] SETOPS_BUILD_PYTHON (DEFAULT: OFF)
-# Build a shared library if set to ON.
-set(SETOPS_BUILD_PYTHON_STR "Build python shared library")
-option(SETOPS_BUILD_PYTHON ${SETOPS_BUILD_PYTHON_STR} OFF)
-message(STATUS "SETOPS_BUILD_PYTHON: ${SETOPS_BUILD_PYTHON}")
-
-if(SETOPS_BUILD_PYTHON)
-    add_subdirectory(python)
 endif()

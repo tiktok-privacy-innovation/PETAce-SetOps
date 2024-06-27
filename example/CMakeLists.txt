@@ -14,14 +14,14 @@
 
 cmake_minimum_required(VERSION 3.14)
 
-project(SETOPSExamples VERSION 0.2.0 LANGUAGES CXX)
+project(SETOPSExamples VERSION 0.3.0 LANGUAGES CXX)
 
 # If not called from root CMakeLists.txt
 if(NOT DEFINED SETOPS_BUILD_EXAMPLE)
     set(SETOPS_BUILD_EXAMPLE ON)
 
     # Import PETAce SETOPS
-    find_package(PETAce-SetOps  0.2.0 EXACT REQUIRED)
+    find_package(PETAce-SetOps  0.3.0 EXACT REQUIRED)
 
     add_compile_options(-msse4.2 -Wno-ignored-attributes -mavx)
 

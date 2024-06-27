@@ -16,10 +16,10 @@ Currently, PETAce-SetOps implements the ECDH-PSI protocol based on Elliptic-Curv
 
 | Required dependency                                                            | Tested version | Use                                  |
 |--------------------------------------------------------------------------------|----------------|--------------------------------------|
-| [PETAce-Solo](https://github.com/tiktok-privacy-innovation/PETAce-Solo)        | 0.2.0          | Cryptography primitives              |
-| [PETAce-Verse](https://github.com/tiktok-privacy-innovation/PETAce-Verse)      | 0.2.0          | Primitive cryptographic protocols    |
-| [PETAce-Duet](https://github.com/tiktok-privacy-innovation/PETAce-Duet)        | 0.2.0          | Two-party secure computing protocols |
-| [PETAce-Network](https://github.com/tiktok-privacy-innovation/PETAce-Network)  | 0.2.0          | Network communication protocols      |
+| [PETAce-Solo](https://github.com/tiktok-privacy-innovation/PETAce-Solo)        | 0.3.0          | Cryptography primitives              |
+| [PETAce-Verse](https://github.com/tiktok-privacy-innovation/PETAce-Verse)      | 0.3.0          | Primitive cryptographic protocols    |
+| [PETAce-Duet](https://github.com/tiktok-privacy-innovation/PETAce-Duet)        | 0.3.0          | Two-party secure computing protocols |
+| [PETAce-Network](https://github.com/tiktok-privacy-innovation/PETAce-Network)  | 0.3.0          | Network communication protocols      |
 | [Google Logging](https://github.com/google/glog)                               | 0.4.0          | Logging                              |
 | [JSON for Modern C++(JSON)](https://github.com/nlohmann/json)                  | 3.10.1         | PSI parameter configuration          |
 
@@ -57,18 +57,6 @@ Output binaries can be found in `build/lib/` and `build/bin/` directories.
 | `SETOPS_BUILD_TEST`        | ON/OFF        | ON      | Build C++ test if set to ON.                        |
 | `SETOPS_BUILD_DEPS`        | ON/OFF        | ON      | Download and build unmet dependencies if set to ON. |
 
-### Building python
-To build PETAce-Setops python package:
-
-```bash
-cmake -S . -B build -DDUET_BUILD_PYTHON=ON -Dnlohmann_json_DIR=${JSON}/build
-cmake --build build
-cd build
-make wheel
-cd python/wheel
-pip3 install petace_setops-0.2.0-py3-none-any.whl
-```
-
 Here we give a simple example to run protocols in PETAce-SetOps.
 
 To run as Party A (a sender):
@@ -81,13 +69,6 @@ To run as Party B (a receiver):
 
 ```bash
 bash build/example/scripts/ecdh_psi_receiver_example.sh
-```
-
-To run python examples, execute the following in commands in separate terminal sessions.
-
-```bash
-python3 ./example/setops_example.py -p 0
-python3 ./example/setops_example.py -p 1
 ```
 
 ## Contribution
@@ -106,14 +87,14 @@ This project is licensed under the [Apache-2.0 License](LICENSE).
 
 To cite PETAce in academic papers, please use the following BibTeX entries.
 
-### Version 0.2.0
+### Version 0.3.0
 
 ```tex
     @misc{petace,
-        title = {PETAce (release 0.2.0)},
+        title = {PETAce (release 0.3.0)},
         howpublished = {\url{https://github.com/tiktok-privacy-innovation/PETAce}},
-        month = Oct,
-        year = 2023,
+        month = Jun,
+        year = 2024,
         note = {TikTok Pte. Ltd.},
         key = {PETAce}
     }
