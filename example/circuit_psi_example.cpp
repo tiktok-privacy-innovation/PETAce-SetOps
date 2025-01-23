@@ -39,10 +39,10 @@ void circuit_psi_example(const std::string& config_path, const std::string& log_
     FLAGS_log_dir = log_path;
     std::string log_file_name;
     if (use_random_data) {
-        log_file_name = std::string("ecdh_psi_") + (is_sender ? "sender_" : "receiver_") + "intersection_size_" +
+        log_file_name = std::string("circuit_psi_") + (is_sender ? "sender_" : "receiver_") + "intersection_size_" +
                         std::to_string(intersection_size);
     } else {
-        log_file_name = std::string("ecdh_psi_") + (is_sender ? "sender_" : "receiver_") + "from_file";
+        log_file_name = std::string("circuit_psi_") + (is_sender ? "sender_" : "receiver_") + "from_file";
     }
     google::InitGoogleLogging(log_file_name.c_str());
 

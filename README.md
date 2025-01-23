@@ -22,10 +22,10 @@ Currently, PETAce-SetOps implements the ECDH-PSI protocol based on Elliptic-Curv
 
 | Required dependency                                                            | Tested version | Use                                  |
 |--------------------------------------------------------------------------------|----------------|--------------------------------------|
-| [PETAce-Solo](https://github.com/tiktok-privacy-innovation/PETAce-Solo)        | 0.3.0          | Cryptography primitives              |
-| [PETAce-Verse](https://github.com/tiktok-privacy-innovation/PETAce-Verse)      | 0.3.0          | Primitive cryptographic protocols    |
-| [PETAce-Duet](https://github.com/tiktok-privacy-innovation/PETAce-Duet)        | 0.3.0          | Two-party secure computing protocols |
-| [PETAce-Network](https://github.com/tiktok-privacy-innovation/PETAce-Network)  | 0.3.0          | Network communication protocols      |
+| [PETAce-Solo](https://github.com/tiktok-privacy-innovation/PETAce-Solo)        | 0.4.0          | Cryptography primitives              |
+| [PETAce-Verse](https://github.com/tiktok-privacy-innovation/PETAce-Verse)      | 0.4.0          | Primitive cryptographic protocols    |
+| [PETAce-Duet](https://github.com/tiktok-privacy-innovation/PETAce-Duet)        | 0.4.0          | Two-party secure computing protocols |
+| [PETAce-Network](https://github.com/tiktok-privacy-innovation/PETAce-Network)  | 0.4.0          | Network communication protocols      |
 | [Google Logging](https://github.com/google/glog)                               | 0.4.0          | Logging                              |
 | [JSON for Modern C++(JSON)](https://github.com/nlohmann/json)                  | 3.10.1         | PSI parameter configuration          |
 
@@ -95,14 +95,14 @@ This project is licensed under the [Apache-2.0 License](LICENSE).
 
 To cite PETAce in academic papers, please use the following BibTeX entries.
 
-### Version 0.3.0
+### Version 0.4.0
 
 ```tex
     @misc{petace,
-        title = {PETAce (release 0.3.0)},
+        title = {PETAce (release 0.4.0)},
         howpublished = {\url{https://github.com/tiktok-privacy-innovation/PETAce}},
-        month = Jun,
-        year = 2024,
+        month = Jan,
+        year = 2025,
         note = {TikTok Pte. Ltd.},
         key = {PETAce}
     }
